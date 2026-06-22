@@ -10,6 +10,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      packages: write
+
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 21
@@ -33,5 +37,5 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: docker
-        tags: ghcr.io/maritimeconnectivity/mcpkeycloakspi
+        tags: ghcr.io/team-aivn/mcpkeycloakspi
         push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
