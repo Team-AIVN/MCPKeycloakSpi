@@ -23,7 +23,7 @@
 </head>
 <body style="margin:0; padding:0; background-color:#ffffff; font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
   <div style="display:none; max-height:0; overflow:hidden; opacity:0; color:transparent;">
-    Enter your verification code to continue to ChatSea.
+    Enter your verification code to continue using ChatSea.
   </div>
 
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#ffffff;">
@@ -41,7 +41,7 @@
             <td class="px" style="padding:0 8px;">
               <h1 style="margin:0 0 20px 0; font-size:26px; line-height:1.35; color:#111111; font-weight:700; letter-spacing:-0.5px;">Your verification code</h1>
               <p style="margin:0 0 40px 0; font-size:16px; line-height:1.7; color:#666666;">
-                Enter the code below to continue to ChatSea. This code expires in ${ttlMinutes} minute<#if (ttlMinutes > 1)>s</#if>.
+                Enter the code below to continue using ChatSea. This code expires in ${ttlMinutes} minute<#if (ttlMinutes > 1)>s</#if>.
               </p>
             </td>
           </tr>

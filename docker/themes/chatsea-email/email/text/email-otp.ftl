@@ -2,7 +2,7 @@ ChatSea
 
 Your verification code
 
-Enter the code below to continue to ChatSea.
+Enter the code below to continue using ChatSea.
 This code expires in ${ttlMinutes} minute<#if (ttlMinutes > 1)>s</#if>.
 
   ${otp}
