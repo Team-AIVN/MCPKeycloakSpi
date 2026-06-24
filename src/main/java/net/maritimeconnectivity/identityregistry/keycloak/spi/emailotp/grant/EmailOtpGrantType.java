@@ -18,6 +18,9 @@ package net.maritimeconnectivity.identityregistry.keycloak.spi.emailotp.grant;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import net.maritimeconnectivity.identityregistry.keycloak.spi.emailotp.core.OtpStore;
+import org.jboss.logging.Logger;
+import org.keycloak.email.EmailException;
+import org.keycloak.email.EmailTemplateProvider;
 import org.keycloak.events.Details;
 import org.keycloak.events.Errors;
 import org.keycloak.events.EventType;
@@ -40,6 +43,10 @@ public class EmailOtpGrantType extends OAuth2GrantTypeBase {
     public static final String GRANT_TYPE = "email_otp";
     public static final String PARAM_EMAIL = "email";
     public static final String PARAM_OTP = "otp";
+
+    private static final Logger LOG = Logger.getLogger(EmailOtpGrantType.class);
+    private static final String WELCOME_TEMPLATE = "welcome.ftl";
+    private static final String WELCOME_SUBJECT_KEY = "welcomeSubject";
 
     @Override
     public EventType getEventType() {
@@ -95,6 +102,8 @@ public class EmailOtpGrantType extends OAuth2GrantTypeBase {
             }
         }
 
+        sendWelcomeEmailIfFirstVerification(user);
+
         String scope = getRequestedScopes();
 
         UserSessionModel userSession = session.sessions().createUserSession(
@@ -123,6 +132,21 @@ public class EmailOtpGrantType extends OAuth2GrantTypeBase {
         event.user(user).session(userSession);
 
         return createTokenResponse(user, userSession, clientSessionCtx, scope, false, null);
+    }
+
+    private void sendWelcomeEmailIfFirstVerification(UserModel user) {
+        if (user.isEmailVerified()) {
+            return;
+        }
+        try {
+            session.getProvider(EmailTemplateProvider.class)
+                    .setRealm(realm)
+                    .setUser(user)
+                    .send(WELCOME_SUBJECT_KEY, WELCOME_TEMPLATE, new HashMap<>());
+            user.setEmailVerified(true);
+        } catch (EmailException e) {
+            LOG.errorf(e, "Failed to send welcome email to %s; emailVerified flag left false", user.getEmail());
+        }
     }
 
     private Response errorJson(String error, String description, Map<String, Object> extra,
