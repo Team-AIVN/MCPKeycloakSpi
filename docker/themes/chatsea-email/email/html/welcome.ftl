@@ -32,12 +32,12 @@
 
           <tr>
             <td class="px" style="padding:0 8px;">
-              <h1 style="margin:0 0 24px 0; font-size:26px; line-height:1.35; color:#111111; font-weight:700; letter-spacing:-0.5px;">Hi, welcome aboard Ch@tSea!</h1>
+              <h1 style="margin:0 0 24px 0; font-size:26px; line-height:1.35; color:#111111; font-weight:700; letter-spacing:-0.5px;">Hi, Welcome aboard Ch@tSea!</h1>
               <p style="margin:0 0 32px 0; font-size:16px; line-height:1.7; color:#666666;">
                 Your account is all set, and you&rsquo;re ready to get started.
               </p>
               <p style="margin:0 0 4px 0; font-size:16px; line-height:1.7; color:#666666;">Thank you,</p>
-              <p style="margin:0 0 56px 0; font-size:16px; line-height:1.7; color:#666666;">&nbsp;The Ch@tSea Team</p>
+              <p style="margin:0 0 56px 0; font-size:16px; line-height:1.7; color:#666666;">The Ch@tSea Team</p>
             </td>
           </tr>
 
@@ -51,7 +51,7 @@
                 <a href="https://chatsea.net/legal/privacy" style="color:#aaaaaa;">Privacy Policy</a>
               </p>
               <p style="margin:0 0 12px 0; font-size:13px; line-height:1.6; color:#aaaaaa;">
-                Room 404, Research Building 3, Yuseong-daero 1689beon-gil, Yuseong-gu, Daejeon, South Korea 34047
+                R404, Building 3, 70 Yuseong-daero 1689beon-gil, Yuseong-gu, Daejeon, South Korea 34047
               </p>
               <p style="margin:0; font-size:13px; line-height:1.6; color:#aaaaaa;">
                 &copy; 2026 AIVeNautics. All rights reserved.

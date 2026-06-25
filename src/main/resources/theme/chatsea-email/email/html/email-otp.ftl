@@ -64,7 +64,7 @@
                 <a href="https://chatsea.net/legal/privacy" style="color:#aaaaaa;">Privacy Policy</a>
               </p>
               <p style="margin:0 0 12px 0; font-size:13px; line-height:1.6; color:#aaaaaa;">
-                Room 404, Research Building 3, Yuseong-daero 1689beon-gil, Yuseong-gu, Daejeon, South Korea 34047
+                R404, Building 3, 70 Yuseong-daero 1689beon-gil, Yuseong-gu, Daejeon, South Korea 34047
               </p>
               <p style="margin:0; font-size:13px; line-height:1.6; color:#aaaaaa;">
                 &copy; 2026 AIVeNautics. All rights reserved.
