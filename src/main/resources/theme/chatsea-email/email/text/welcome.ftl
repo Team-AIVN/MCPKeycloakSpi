@@ -1,6 +1,11 @@
-Hi, Welcome aboard Ch@tSea!
+Welcome aboard Ch@tSea!
 
-Your account is all set, and you're ready to get started.
+Your account is all set. You can now use Ch@tSea to explore maritime safety information, share navigation updates, and stay connected with nearby users on the water.
+
+To get started:
+  - Explore the map to check nearby maritime information
+  - Allow location access for more relevant updates
+  - Share useful observations to support safer navigation
 
 Thank you,
 The Ch@tSea Team

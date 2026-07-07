@@ -22,7 +22,7 @@
 </head>
 <body style="margin:0; padding:0; background-color:#ffffff; font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
   <div style="display:none; max-height:0; overflow:hidden; opacity:0; color:transparent;">
-    Welcome aboard Ch@tSea. Your account is all set.
+    Your account is ready. Explore maritime safety info and nearby updates.
   </div>
 
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#ffffff;">
@@ -32,10 +32,20 @@
 
           <tr>
             <td class="px" style="padding:0 8px;">
-              <h1 style="margin:0 0 24px 0; font-size:26px; line-height:1.35; color:#111111; font-weight:700; letter-spacing:-0.5px;">Hi, Welcome aboard Ch@tSea!</h1>
-              <p style="margin:0 0 32px 0; font-size:16px; line-height:1.7; color:#666666;">
-                Your account is all set, and you&rsquo;re ready to get started.
+              <h1 style="margin:0 0 24px 0; font-size:26px; line-height:1.35; color:#111111; font-weight:700; letter-spacing:-0.5px;">Welcome aboard Ch@tSea!</h1>
+              <p style="margin:0 0 24px 0; font-size:16px; line-height:1.7; color:#666666;">
+                Your account is all set. You can now use Ch@tSea to explore maritime safety information, share navigation updates, and stay connected with nearby users on the water.
               </p>
+
+              <p style="margin:0 0 12px 0; font-size:16px; line-height:1.7; color:#111111; font-weight:600;">
+                To get started:
+              </p>
+              <ul style="margin:0 0 32px 0; padding-left:22px; font-size:16px; line-height:1.7; color:#666666;">
+                <li>Explore the map to check nearby maritime information</li>
+                <li>Allow location access for more relevant updates</li>
+                <li>Share useful observations to support safer navigation</li>
+              </ul>
+
               <p style="margin:0 0 4px 0; font-size:16px; line-height:1.7; color:#666666;">Thank you,</p>
               <p style="margin:0 0 56px 0; font-size:16px; line-height:1.7; color:#666666;">The Ch@tSea Team</p>
             </td>
