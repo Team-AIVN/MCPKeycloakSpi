@@ -34,8 +34,10 @@ import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 
 import java.time.Clock;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class OtpResource {
@@ -47,6 +49,12 @@ public class OtpResource {
 
     private static final String ATTR_OTP = "otp";
     private static final String ATTR_TTL_MINUTES = "ttlMinutes";
+
+    private static final String USERS_REALM_NAME = "Users";
+    private static final String ATTR_MRN = "mrn";
+    private static final List<String> COPIED_ATTRS = Arrays.asList(
+            "mrn", "org", "uid", "permissions", "subsidiary_mrn", "mms_url"
+    );
 
     private final KeycloakSession session;
 
@@ -68,6 +76,10 @@ public class OtpResource {
         RealmModel realm = session.getContext().getRealm();
         EmailOtpPolicy policy = EmailOtpPolicy.load();
         long now = Clock.systemUTC().instant().getEpochSecond();
+
+        // MIR creates signup users only in the Users realm. Promote to MCP realm on first OTP send
+        // so verify can find them and issue a MCP-realm JWT (which is what the app trusts).
+        ensureMcpRealmUser(realm, email);
 
         UserModel user = session.users().getUserByEmail(realm, email);
         if (user == null || !user.isEnabled()) {
@@ -105,6 +117,37 @@ public class OtpResource {
                 issued.maxAttempts(),
                 issued.serverTime()
         )).type(MediaType.APPLICATION_JSON_TYPE).build();
+    }
+
+    private void ensureMcpRealmUser(RealmModel mcpRealm, String email) {
+        RealmModel usersRealm = session.realms().getRealmByName(USERS_REALM_NAME);
+        if (usersRealm == null) {
+            return;
+        }
+        UserModel usersRealmUser = session.users().getUserByEmail(usersRealm, email);
+        if (usersRealmUser == null || !usersRealmUser.isEnabled() || usersRealmUser.isEmailVerified()) {
+            return;
+        }
+        String mrn = usersRealmUser.getFirstAttribute(ATTR_MRN);
+        if (mrn == null || mrn.isBlank()) {
+            return;
+        }
+        if (session.users().getUserByUsername(mcpRealm, mrn) != null) {
+            return;
+        }
+        UserModel mcpRealmUser = session.users().addUser(mcpRealm, mrn);
+        mcpRealmUser.setEnabled(true);
+        mcpRealmUser.setEmail(email);
+        mcpRealmUser.setFirstName(usersRealmUser.getFirstName());
+        mcpRealmUser.setLastName(usersRealmUser.getLastName());
+        mcpRealmUser.setEmailVerified(false);
+        for (String attrName : COPIED_ATTRS) {
+            List<String> values = usersRealmUser.getAttributeStream(attrName).toList();
+            if (!values.isEmpty()) {
+                mcpRealmUser.setAttribute(attrName, values);
+            }
+        }
+        logger.debugf("Pre-provisioned MCP realm user for OTP: mrn=%s email=%s", mrn, email);
     }
 
     private void sendEmail(RealmModel realm, UserModel user, String otp, EmailOtpPolicy policy) throws EmailException {
