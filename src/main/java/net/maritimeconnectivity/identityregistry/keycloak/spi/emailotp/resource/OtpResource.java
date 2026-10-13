@@ -89,6 +89,17 @@ public class OtpResource {
         }
 
         OtpStore store = new OtpStore(session);
+
+        if (policy.isFixedOtpEmail(email)) {
+            OtpStore.Issued issued = store.issueWithoutRateLimit(email, OtpHasher.sha256Hex(policy.fixedCode()), policy);
+            return Response.ok(new OtpSendResponse(
+                    issued.expiresAt(),
+                    issued.resendAvailableAt(),
+                    issued.maxAttempts(),
+                    issued.serverTime()
+            )).type(MediaType.APPLICATION_JSON_TYPE).build();
+        }
+
         String otp = OtpGenerator.generate(policy.length());
         String otpHash = OtpHasher.sha256Hex(otp);
 

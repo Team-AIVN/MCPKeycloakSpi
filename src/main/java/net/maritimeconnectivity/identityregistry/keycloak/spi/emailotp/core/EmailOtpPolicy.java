@@ -20,7 +20,9 @@ public record EmailOtpPolicy(
         long ttlSeconds,
         int maxAttempts,
         long resendCooldownSeconds,
-        int hourlyLimit
+        int hourlyLimit,
+        String fixedEmail,
+        String fixedCode
 ) {
     public static final int DEFAULT_LENGTH = 6;
     public static final long DEFAULT_TTL_SECONDS = 300;
@@ -34,8 +36,20 @@ public record EmailOtpPolicy(
                 envLong("EMAIL_OTP_TTL_SECONDS", DEFAULT_TTL_SECONDS),
                 envInt("EMAIL_OTP_MAX_ATTEMPTS", DEFAULT_MAX_ATTEMPTS),
                 envLong("EMAIL_OTP_RESEND_COOLDOWN_SECONDS", DEFAULT_RESEND_COOLDOWN_SECONDS),
-                envInt("EMAIL_OTP_HOURLY_LIMIT", DEFAULT_HOURLY_LIMIT)
+                envInt("EMAIL_OTP_HOURLY_LIMIT", DEFAULT_HOURLY_LIMIT),
+                envString("EMAIL_OTP_FIXED_EMAIL"),
+                envString("EMAIL_OTP_FIXED_CODE")
         );
+    }
+
+    public boolean isFixedOtpEmail(String email) {
+        return fixedEmail != null && fixedCode != null
+                && OtpStore.normalize(fixedEmail).equals(OtpStore.normalize(email));
+    }
+
+    private static String envString(String key) {
+        String v = System.getenv(key);
+        return v == null || v.isBlank() ? null : v.trim();
     }
 
     private static int envInt(String key, int defaultValue) {

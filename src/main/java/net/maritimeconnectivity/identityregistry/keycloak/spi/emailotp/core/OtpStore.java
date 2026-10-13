@@ -67,15 +67,7 @@ public class OtpStore {
             throw new OtpRateLimitException(OtpRateLimitException.Reason.HOURLY_LIMIT, now + HOURLY_WINDOW_SECONDS);
         }
 
-        store.remove(KEY_RECORD_PREFIX + key);
-
-        Map<String, String> record = new HashMap<>();
-        record.put(NOTE_HASH, otpHash);
-        record.put(NOTE_ISSUED_AT, Long.toString(now));
-        record.put(NOTE_TTL_SECONDS, Long.toString(policy.ttlSeconds()));
-        record.put(NOTE_MAX_ATTEMPTS, Integer.toString(policy.maxAttempts()));
-        record.put(NOTE_ATTEMPTS_USED, "0");
-        store.put(KEY_RECORD_PREFIX + key, policy.ttlSeconds(), record);
+        putRecord(key, otpHash, policy, now);
 
         long resendAvailableAt = now + policy.resendCooldownSeconds();
         Map<String, String> resendMark = new HashMap<>();
@@ -94,6 +86,32 @@ public class OtpStore {
                 policy.maxAttempts(),
                 now
         );
+    }
+
+    public Issued issueWithoutRateLimit(String email, String otpHash, EmailOtpPolicy policy) {
+        String key = normalize(email);
+        long now = clock.instant().getEpochSecond();
+
+        putRecord(key, otpHash, policy, now);
+
+        return new Issued(
+                now + policy.ttlSeconds(),
+                now,
+                policy.maxAttempts(),
+                now
+        );
+    }
+
+    private void putRecord(String key, String otpHash, EmailOtpPolicy policy, long now) {
+        store.remove(KEY_RECORD_PREFIX + key);
+
+        Map<String, String> record = new HashMap<>();
+        record.put(NOTE_HASH, otpHash);
+        record.put(NOTE_ISSUED_AT, Long.toString(now));
+        record.put(NOTE_TTL_SECONDS, Long.toString(policy.ttlSeconds()));
+        record.put(NOTE_MAX_ATTEMPTS, Integer.toString(policy.maxAttempts()));
+        record.put(NOTE_ATTEMPTS_USED, "0");
+        store.put(KEY_RECORD_PREFIX + key, policy.ttlSeconds(), record);
     }
 
     public VerifyResult verify(String email, String otp) {
